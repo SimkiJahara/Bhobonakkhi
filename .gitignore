@@ -5,3 +5,5 @@ venv/
 __pycache__/
 .DS_Store
 *.pyc
+results/vlm_cache.jsonl
+results/features_cache.npy

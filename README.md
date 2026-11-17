@@ -18,3 +18,10 @@ cp .env.example .env      # then put your Gemini key in .env (never commit it)
 uvicorn app:app --port 8000
 ```
 Open http://localhost:8000. Without a key the app falls back to a simple template report.
+
+## Evaluation (capstone)
+```bash
+python evaluate_vlm.py /path/to/All /path/to/labels.csv
+```
+Runs the blind Gemini check on every labelled building (cached and resumable), then compares the VLM alone, the
+cross-validated ridge model, and their average against your labels. CSV tables are written to `results/`.

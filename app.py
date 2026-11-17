@@ -72,7 +72,7 @@ def gemini_raw(images):
     parts.append(blind_prompt())
     c = genai.Client(api_key=os.environ['GEMINI_API_KEY'])
     return c.models.generate_content(model=os.getenv('GEMINI_MODEL', 'gemini-3.8-flash'), contents=parts,
-            config=types.GenerateContentConfig(response_mime_type='application/json')).text
+            config=types.GenerateContentConfig(response_mime_type='application/json', temperature=0)).text
 
 _q = None
 def qwen_raw(images):
@@ -123,7 +123,8 @@ def finish(r, vlm, source):
             v = (vlm.get('indicators') or {}).get(i) or {}
             vs = v.get('score'); ms = r['indicators'][i]
             diff = None if vs is None else round(abs(float(vs) - ms), 2)
-            status = 'no evidence' if diff is None else ('agree' if diff <= 1 else 'disagree')
+            status = ('no evidence' if diff is None else 'exact' if int(round(ms)) == int(vs)
+                      else 'close' if diff <= 1 else 'disagree')
             if status == 'disagree':
                 warns.append(f"Model ({ms:.1f}) and visual check ({vs}) disagree on {i.replace('_', ' ')}. Verify this one manually.")
             cmp_.append({'indicator': i, 'model': ms, 'vlm': vs, 'status': status, 'evidence': v.get('evidence', ''),
