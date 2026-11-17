@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+python-multipart
+torch
+transformers
+pillow
+numpy
+scikit-learn==1.6.1
+joblib
+# free report options (install only what you use):
+google-genai          # Gemini free tier
+# qwen-vl-utils accelerate   # local Qwen2.5-VL (free, GPU recommended)

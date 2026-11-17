@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BhobonAkkhi – Building Risk Screening</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#14181f;--mut:#667085;--bd:#e4e7ee;--ac:#3b5bdb;--ac2:#7048e8;--sh:0 1px 2px rgba(16,24,40,.05),0 8px 24px rgba(16,24,40,.06);
+--Low:#16a34a;--Moderate:#d97706;--High:#ea580c;--Critical:#dc2626}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1218;--card:#181c24;--tx:#e9ecf2;--mut:#9aa3b2;--bd:#272d38;--ac:#7b93ff;--ac2:#a78bfa;--sh:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35)}}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--tx);line-height:1.5}
+header{background:linear-gradient(120deg,var(--ac),var(--ac2));color:#fff;padding:34px 16px 70px}
+.wrap{max-width:980px;margin:auto}header h1{margin:0;font-size:1.9rem;letter-spacing:-.02em}header p{margin:6px 0 0;opacity:.9;max-width:620px}
+main{max-width:980px;margin:-44px auto 40px;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--sh);padding:22px;margin-bottom:20px}
+h2{font-size:1.05rem;margin:0 0 4px}.mut{color:var(--mut);font-size:.92rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}
+.slot{position:relative;border:2px dashed var(--bd);border-radius:14px;padding:12px;text-align:center;cursor:pointer;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:.15s}
+.slot:hover,.slot.over{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 6%,transparent)}
+.slot input{display:none}.slot img{width:100%;height:130px;object-fit:cover;border-radius:10px}
+.num{width:30px;height:30px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.slot.done{border-style:solid;border-color:var(--Low)}.slot small{color:var(--mut)}
+.btn{background:linear-gradient(120deg,var(--ac),var(--ac2));color:#fff;border:0;border-radius:12px;padding:13px 26px;font-size:1rem;font-weight:600;cursor:pointer}
+.btn:disabled{opacity:.45;cursor:not-allowed}.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+.bar-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.hero{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+.gauge{position:relative;width:150px;height:150px}.gauge svg{transform:rotate(-90deg)}
+.gauge .v{position:absolute;inset:0;display:grid;place-content:center;text-align:center}.gauge b{font-size:1.9rem;line-height:1}.gauge span{font-size:.8rem;color:var(--mut)}
+.badge{display:inline-block;padding:5px 16px;border-radius:99px;font-weight:700;color:#fff;font-size:1.05rem}
+.warn{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fef3c7;color:#78350f;font-size:.92rem}
+@media(prefers-color-scheme:dark){.warn{background:#3a2e10;color:#fcd9a0}}
+.ind{display:grid;grid-template-columns:170px 1fr 44px;gap:12px;align-items:center;margin:10px 0;font-size:.93rem}
+.track{height:10px;background:var(--bd);border-radius:6px;overflow:hidden}.track i{display:block;height:100%;border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:.88rem}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--bd);vertical-align:top}th{color:var(--mut);font-weight:600}
+.st{font-weight:600}.st.agree{color:var(--Low)}.st.disagree{color:var(--Critical)}.st.noevidence{color:var(--mut)}
+.rep h3{font-size:1.02rem;margin:16px 0 6px}.rep p{margin:6px 0}.rep ul,.rep ol{padding-left:22px;margin:6px 0}.rep li{margin:5px 0}.rep hr{border:0;border-top:1px solid var(--bd);margin:14px 0}
+.spin{width:38px;height:38px;border:4px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:s 1s linear infinite;margin:10px auto}@keyframes s{to{transform:rotate(360deg)}}
+.center{text-align:center;padding:26px}.err{color:var(--Critical);font-weight:600}
+footer{text-align:center;color:var(--mut);font-size:.82rem;padding:0 16px 30px}
+@media(max-width:560px){.ind{grid-template-columns:1fr 1fr 40px}}
+@media print{header,#up,.noprint,footer{display:none}body{background:#fff}main{margin:0}.card{box-shadow:none}}
+</style></head><body>
+<header><div class="wrap"><h1>BhobonAkkhi</h1><p>AI-assisted seismic vulnerability screening for buildings in Dhaka. Upload four drone views and get a risk rating with a written report.</p></div></header>
+<main>
+<section class="card" id="up"><h2>1. Upload the four views</h2><div class="mut">Click a box or drag a photo onto it. All four are required.</div>
+<div class="grid" id="grid"></div>
+<div class="bar-row"><button class="btn" id="go" disabled>Analyze building</button><button class="btn ghost" id="reset" type="button">Clear</button><span id="msg" class="mut"></span></div></section>
+<div id="out"></div>
+</main>
+<footer>Screening aid only – not a structural engineering assessment. A qualified engineer should inspect any building before decisions are made.</footer>
+<script>
+const VIEWS=[['facade','Façade','Front, ground level'],['oblique45','Oblique 45°','Angled from above'],['oblique60','Oblique 60°','Steeper angle'],['nadir','Nadir (top)','Straight down']];
+const files={},grid=document.getElementById('grid'),go=document.getElementById('go'),msg=document.getElementById('msg'),out=document.getElementById('out');
+const COL={Low:'#16a34a',Moderate:'#d97706',High:'#ea580c',Critical:'#dc2626'};
+const E=x=>String(x??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function empty(l,i,label,hint){l.className='slot';l.innerHTML=`<div class="num">${i+1}</div><strong>${label}</strong><small>${hint}</small><small>Click or drop photo</small><input type="file" accept="image/*">`;bind(l,i)}
+function setFile(l,i,f){if(!f||!f.type.startsWith('image/'))return;files[VIEWS[i][0]]=f;l.className='slot done';
+  l.innerHTML=`<img src="${URL.createObjectURL(f)}" alt=""><strong>${VIEWS[i][1]}</strong><small>${E(f.name)}</small><input type="file" accept="image/*">`;bind(l,i);go.disabled=Object.keys(files).length<4}
+function bind(l,i){const inp=l.querySelector('input');inp.onchange=e=>setFile(l,i,e.target.files[0]);
+  l.ondragover=e=>{e.preventDefault();l.classList.add('over')};l.ondragleave=()=>l.classList.remove('over');
+  l.ondrop=e=>{e.preventDefault();l.classList.remove('over');setFile(l,i,e.dataTransfer.files[0])}}
+const slots=VIEWS.map(([k,label,hint],i)=>{const l=document.createElement('label');empty(l,i,label,hint);grid.appendChild(l);return l});
+document.getElementById('reset').onclick=()=>{for(const k in files)delete files[k];slots.forEach((l,i)=>empty(l,i,VIEWS[i][1],VIEWS[i][2]));go.disabled=true;out.innerHTML='';msg.textContent=''};
+function md(t){const inl=x=>E(x).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*(?!\s)([^*]+?)\*/g,'$1<em>$2</em>');
+  let h='',list=null;const close=()=>{if(list){h+='</'+list+'>';list=null}};
+  for(const raw of t.split('\n')){const l=raw.trim();let m;if(!l){close();continue}
+    if(/^-{3,}$/.test(l)){close();h+='<hr>';continue}
+    if(m=l.match(/^#{1,6}\s+(.*)/)){close();h+='<h3>'+inl(m[1])+'</h3>';continue}
+    if(m=l.match(/^[*-]\s+(.*)/)){if(list!=='ul'){close();h+='<ul>';list='ul'}h+='<li>'+inl(m[1])+'</li>';continue}
+    if(m=l.match(/^\d+\.\s+(.*)/)){if(list!=='ol'){close();h+='<ol>';list='ol'}h+='<li>'+inl(m[1])+'</li>';continue}
+    close();h+='<p>'+inl(l)+'</p>'}close();return h}
+const sev=v=>v<1?'#16a34a':v<2?'#d97706':'#dc2626';
+function render(r){
+  const C=2*Math.PI*54,off=C*(1-Math.min(r.total,18)/18),col=COL[r.class]||'#3b5bdb';
+  const warn=(r.warnings||[]).map(w=>`<div class="warn">⚠ ${E(w)}</div>`).join('');
+  const bars=Object.entries(r.indicators).map(([k,v])=>`<div class="ind"><span>${E(k.replace(/_/g,' '))}</span><div class="track"><i style="width:${v/3*100}%;background:${sev(v)}"></i></div><b>${v.toFixed(1)}</b></div>`).join('');
+  const cmp=(r.comparison||[]).length?`<section class="card"><h2>Model vs independent visual check</h2><div class="mut">The visual check scored the photos without seeing the model’s numbers.</div><div style="overflow-x:auto;margin-top:8px"><table><tr><th>Indicator</th><th>Model</th><th>Visual</th><th>Check</th><th>What was seen</th></tr>${r.comparison.map(c=>`<tr><td>${E(c.indicator.replace(/_/g,' '))}</td><td>${Number(c.model).toFixed(1)}</td><td>${c.vlm??'–'}</td><td class="st ${c.status.replace(' ','')}">${c.status}</td><td>${E(c.evidence)}</td></tr>`).join('')}</table></div></section>`:'';
+  out.innerHTML=`<section class="card"><div class="hero"><div class="gauge"><svg width="150" height="150" viewBox="0 0 130 130"><circle cx="65" cy="65" r="54" fill="none" stroke="var(--bd)" stroke-width="12"/><circle cx="65" cy="65" r="54" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}"/></svg><div class="v"><b>${r.total.toFixed(1)}</b><span>out of 18</span></div></div>
+  <div style="flex:1;min-width:240px"><span class="badge" style="background:${col}">${E(r.class)} risk</span><p class="mut" style="margin:8px 0 0">Report source: ${E(r.report_source)}</p>${warn}</div></div>
+  <h2 style="margin-top:22px">Indicator scores (0–3)</h2>${bars}</section>${cmp}
+  <section class="card"><h2>Written report</h2><div class="rep">${md(r.report)}</div><div class="noprint bar-row" style="margin-top:16px"><button class="btn ghost" onclick="window.print()">Print / save as PDF</button></div></section>`;
+  out.scrollIntoView({behavior:'smooth'})}
+const STEPS=['Reading the four photos…','Extracting image features…','Scoring the six indicators…','Writing the report…'];
+go.onclick=async()=>{go.disabled=true;msg.textContent='';let n=0;
+  out.innerHTML='<section class="card center"><div class="spin"></div><div class="mut" id="stp">'+STEPS[0]+'</div></section>';
+  const t=setInterval(()=>{const s=document.getElementById('stp');if(s)s.textContent=STEPS[Math.min(++n,STEPS.length-1)]},4000);
+  const fd=new FormData();VIEWS.forEach(([k])=>fd.append(k,files[k]));
+  try{const res=await fetch('/analyze',{method:'POST',body:fd});if(!res.ok)throw new Error((await res.json()).detail||res.status);render(await res.json())}
+  catch(e){out.innerHTML=`<section class="card err">Something went wrong: ${E(e.message)}</section>`}
+  clearInterval(t);go.disabled=false};
+</script></body></html>
