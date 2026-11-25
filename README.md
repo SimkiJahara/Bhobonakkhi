@@ -19,6 +19,18 @@ uvicorn app:app --port 8000
 ```
 Open http://localhost:8000. Without a key the app falls back to a simple template report.
 
+## Features
+- **Live progress**: each step (reading photos, model, AI check, report) ticks off while it runs.
+- **Model vs AI radar chart** and a per-indicator comparison. `FINAL_SCORE=average` (default) uses the mean of the
+  model and the AI check; `FINAL_SCORE=model` uses the model only.
+- **Evidence on the photos**: Gemini marks where it saw each problem; click an indicator to highlight it.
+- **Heatmap** (on demand, ~1-2 min on CPU): occlusion map showing which parts of each photo pushed the model's score up or down.
+- **History and compare**: every analysis is saved in `data/` (SQLite + photos); tick two to compare side by side.
+- **PDF report** with annotated photos, radar chart, indicator table and written report.
+- **Email**: send the PDF to up to 5 addresses (needs `SMTP_USER` and `SMTP_PASSWORD` in `.env`).
+
+`data/` holds saved analyses and photos. Keep it out of git (add `data/` and `.env` to `.gitignore`).
+
 ## Evaluation (capstone)
 ```bash
 python evaluate_vlm.py /path/to/All /path/to/labels.csv

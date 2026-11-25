@@ -4,20 +4,26 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&family=Noto+Sans+Bengali:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#edefea;--sheet:#fafbf8;--ink:#17211f;--mut:#5d6b66;--rule:#cdd2ca;--bp:#1d3f8f;--bp2:#2f5fd0;
+:root{--bg:#edefea;--sheet:#fafbf8;--ink:#17211f;--mut:#5d6b66;--rule:#cdd2ca;--bp:#1d3f8f;--bp2:#2f5fd0;--ai:#d9822b;
 --Low:#2f8f5b;--Moderate:#d69a1f;--High:#e0652a;--Critical:#c62f3a;--LowT:#1f7a48;--ModerateT:#935f00;--HighT:#b3430c;--CriticalT:#b3202b}
-@media(prefers-color-scheme:dark){:root{--bg:#0d1412;--sheet:#141d1a;--ink:#e6ebe7;--mut:#93a39c;--rule:#2a3631;--bp:#16306e;--bp2:#8fb0ff;
+@media(prefers-color-scheme:dark){:root{--bg:#0d1412;--sheet:#141d1a;--ink:#e6ebe7;--mut:#93a39c;--rule:#2a3631;--bp:#16306e;--bp2:#8fb0ff;--ai:#f0a050;
 --LowT:#5fcf90;--ModerateT:#e8b84a;--HighT:#f08a55;--CriticalT:#f2707a}}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "Public Sans",system-ui,sans-serif}
 :focus-visible{outline:3px solid var(--bp2);outline-offset:2px}
-header{color:#fff;background-color:var(--bp);background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:28px 28px;padding:52px 20px 60px}
+header{color:#fff;background-color:var(--bp);background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:28px 28px;padding:52px 20px 0}
 .wrap{max-width:1000px;margin:auto}
 h1{font:700 clamp(2.4rem,7vw,4rem)/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.035em;margin:0}
 header p{margin:14px 0 0;max-width:46ch;font-size:1.1rem;color:#dbe6ff}
+nav{display:flex;gap:4px;margin-top:34px}
+nav button{background:transparent;border:0;border-radius:6px 6px 0 0;color:#dbe6ff;padding:12px 20px;font-weight:600}
+nav button.on{background:var(--bg);color:var(--ink)}
 main{max-width:1000px;margin:0 auto;padding:36px 20px 20px}
 h2{font:700 1.35rem/1.2 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em;margin:0 0 4px}
 .mut{color:var(--mut);margin:0;font-size:.95rem}
+.field{display:flex;flex-direction:column;gap:6px;margin:20px 0 0;max-width:520px;font-weight:500;font-size:.95rem}
+input[type=text],input[type=email],input[type=search],textarea{font:inherit;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:10px 12px;width:100%}
+textarea{min-height:76px;resize:vertical}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:22px 0}
 .slot{--br:var(--bp);position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:2px;aspect-ratio:4/3.3;padding:18px;background:var(--sheet);border:1px solid var(--rule);border-radius:3px;color:var(--bp2);overflow:hidden;cursor:pointer;transition:border-color .15s,background .15s}
 .slot:hover,.slot.over{border-color:var(--bp2);background:color-mix(in srgb,var(--bp2) 7%,var(--sheet))}
@@ -34,54 +40,140 @@ h2{font:700 1.35rem/1.2 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em;m
 .slot.scan::after{content:"";position:absolute;left:0;right:0;top:6%;height:3px;z-index:3;background:linear-gradient(90deg,transparent,#8fd8ff,transparent);box-shadow:0 0 16px 2px #8fd8ff;animation:scan 1.5s ease-in-out infinite alternate}
 @keyframes scan{to{top:94%}}@media(prefers-reduced-motion:reduce){.slot.scan::after{animation:none;top:50%}}
 .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-button{font:600 1rem "Public Sans",sans-serif;border-radius:6px;padding:12px 24px;cursor:pointer;border:1px solid var(--bp);background:var(--bp);color:#fff}
-@media(prefers-color-scheme:dark){button{background:var(--bp2);border-color:var(--bp2);color:#0b1220}}
-button:disabled{opacity:.4;cursor:not-allowed}button.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+button,a.btn{font:600 1rem "Public Sans",sans-serif;border-radius:6px;padding:12px 24px;cursor:pointer;border:1px solid var(--bp);background:var(--bp);color:#fff;text-decoration:none;display:inline-block;line-height:1.3}
+@media(prefers-color-scheme:dark){button,a.btn{background:var(--bp2);border-color:var(--bp2);color:#0b1220}}
+button:disabled{opacity:.4;cursor:not-allowed}
+button.ghost,a.btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+button.sm,a.btn.sm{padding:7px 14px;font-size:.9rem}
+button.danger{color:var(--CriticalT)}
+nav button,nav button:disabled{border:0;background:transparent;color:#dbe6ff}
+nav button.on{background:var(--bg);color:var(--ink)}
 .sheet{margin-top:34px;background:var(--sheet);border:1px solid var(--rule);border-radius:3px}
 .sheet>section{padding:30px 32px}.sheet>section+section{border-top:1px solid var(--rule)}
 .vd{display:flex;align-items:baseline;gap:22px;flex-wrap:wrap}
 .cls{font:700 clamp(2.4rem,7vw,3.8rem)/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
 .sc{color:var(--mut)}.sc b{font:700 1.9rem "Bricolage Grotesque",sans-serif;color:var(--ink)}
+.meta{margin-top:10px}
 .ruler{position:relative;display:flex;margin:34px 0 8px}.ruler>div{min-width:0}
 .ruler i{display:block;height:12px;border-right:2px solid var(--sheet)}.ruler small{display:block;margin-top:6px;font-size:.78rem;color:var(--mut)}
 .mk{position:absolute!important;top:-9px;left:0;width:4px;height:30px;margin-left:-2px;background:var(--ink);border-radius:2px;transition:left 1.2s cubic-bezier(.2,.8,.2,1)}
 @media(prefers-reduced-motion:reduce){.mk{transition:none}}
 .note{margin-top:16px;padding:10px 14px;border-left:3px solid var(--Moderate);background:color-mix(in srgb,var(--Moderate) 13%,transparent);font-size:.94rem}
-.row{display:grid;grid-template-columns:minmax(120px,190px) 1fr 40px;gap:4px 16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--rule)}
+.rad{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;align-items:center;margin-top:12px}
+.lg{display:flex;flex-direction:column;gap:8px;margin:0 0 16px;padding:0;list-style:none}
+.lg li{display:flex;align-items:center;gap:10px}.lg i{width:22px;height:4px;border-radius:2px;display:inline-block}
+.lg i.dash{background:repeating-linear-gradient(90deg,var(--ink) 0 6px,transparent 6px 10px)!important}
+.tally{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95rem}.tally b{font:700 1.2rem "Bricolage Grotesque",sans-serif;text-align:right}
+.row{display:grid;grid-template-columns:minmax(120px,190px) 1fr 40px;gap:4px 16px;align-items:center;padding:12px 10px;margin:0 -10px;border-bottom:1px solid var(--rule);cursor:pointer;border-radius:4px}
+.row:hover{background:color-mix(in srgb,var(--bp2) 6%,transparent)}
+.row.sel{background:color-mix(in srgb,var(--bp2) 12%,transparent);box-shadow:inset 3px 0 0 var(--bp2)}
 .row:last-child{border-bottom:0}.nm{font-weight:500}.val{font:700 1.05rem "Bricolage Grotesque",sans-serif;text-align:right}
 .mt{position:relative;height:8px;background:color-mix(in srgb,var(--rule) 70%,transparent);border-radius:4px;overflow:hidden}.mt i{display:block;height:100%;border-radius:4px}
 .mt::before,.mt::after{content:"";position:absolute;top:0;bottom:0;width:2px;background:var(--sheet);z-index:1}.mt::before{left:33.3%}.mt::after{left:66.6%}
-.cmp{grid-column:2/-1;font-size:.9rem;color:var(--mut)}
+.lvl{color:var(--ink)}.lvl b{font-weight:600}.cmp{grid-column:2/-1;font-size:.9rem;color:var(--mut)}.cmp .nums{color:var(--ink);font-weight:500;margin-right:8px}
 .chip{font-weight:600;margin-right:6px;white-space:nowrap}.chip::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:6px}
 .chip.exact{color:var(--LowT)}.chip.close{color:var(--ModerateT)}.chip.disagree{color:var(--CriticalT)}.chip.none{color:var(--mut)}
+.tools{display:flex;gap:10px 18px;flex-wrap:wrap;align-items:center;margin:16px 0}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pills button{padding:6px 12px;font-size:.88rem;font-weight:500;background:transparent;color:var(--ink);border:1px solid var(--rule);border-radius:999px}
+.pills button.on{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.pills button .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:0}
+.seg{display:flex}.seg button{padding:7px 14px;font-size:.9rem;border-radius:0;background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.seg button:first-child{border-radius:6px 0 0 6px}.seg button:last-child{border-radius:0 6px 6px 0;border-left:0}
+.seg button.on{background:var(--bp);color:#fff;border-color:var(--bp)}
+.photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.photos figure{margin:0}.pw{position:relative;line-height:0;border-radius:3px;overflow:hidden;background:var(--rule)}
+.pw img{width:100%;height:auto;display:block}
+.photos figcaption{font-size:.85rem;color:var(--mut);margin-top:6px}
+.bx{position:absolute;border:3px solid var(--c);border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.35);pointer-events:none}
+.bx span{position:absolute;left:-3px;bottom:100%;background:var(--c);color:#fff;font:600 .75rem/1.6 "Public Sans",sans-serif;padding:0 6px;white-space:nowrap;border-radius:2px 2px 0 0}
+.bx.top span{bottom:auto;top:0;border-radius:0 0 2px 0}.bx.below span{bottom:auto;top:100%;border-radius:0 0 2px 2px}
+.hc{position:absolute;mix-blend-mode:multiply}@media(prefers-color-scheme:dark){.hc{mix-blend-mode:normal}}
+.hlg{display:flex;gap:16px;align-items:center;font-size:.88rem;color:var(--mut)}.hlg i{display:inline-block;width:14px;height:14px;border-radius:2px;margin-right:6px;vertical-align:-2px}
+.bar{height:6px;background:var(--rule);border-radius:3px;overflow:hidden;max-width:360px;margin:10px 0}.bar i{display:block;height:100%;background:var(--bp2);transition:width .3s}
+.empty{padding:22px;border:1px dashed var(--rule);border-radius:4px;color:var(--mut);margin-bottom:14px}
 .rep{max-width:68ch}.rep h3{font:700 1.1rem "Bricolage Grotesque",sans-serif;margin:20px 0 4px}.rep p{margin:8px 0}.rep ul,.rep ol{padding-left:22px;margin:8px 0}.rep li{margin:6px 0}.rep hr{border:0;border-top:1px solid var(--rule);margin:16px 0}
-.busy{padding:34px 32px;color:var(--mut)}.err{padding:22px 32px;color:var(--CriticalT);font-weight:600}
+.mail{margin-top:18px;padding:18px;border:1px solid var(--rule);border-radius:4px;max-width:560px}
+.mail .field{margin-top:0;margin-bottom:12px}
+.ok{color:var(--LowT);font-weight:600}.bad{color:var(--CriticalT);font-weight:600}
+.busy{padding:30px 32px}.err{padding:22px 32px;color:var(--CriticalT);font-weight:600}
+.steps{list-style:none;padding:0;margin:16px 0}
+.steps li{display:flex;gap:12px;align-items:center;padding:8px 0;color:var(--mut)}
+.steps li.run,.steps li.done{color:var(--ink)}.steps small{color:var(--mut);margin-left:6px}
+.steps .ic{width:20px;height:20px;border-radius:50%;border:2px solid var(--rule);flex:none;display:grid;place-items:center;font-size:.75rem;font-weight:700}
+.steps .run .ic{border-color:var(--bp2);border-right-color:transparent;animation:spin .8s linear infinite}
+.steps .done .ic{background:var(--Low);border-color:var(--Low);color:#fff}.steps .done .ic::after{content:"✓"}
+.steps .skip .ic{border-style:dashed}.steps .skip .ic::after{content:"–"}
+.steps .fail .ic{border-color:var(--Critical);color:var(--Critical)}.steps .fail .ic::after{content:"!"}
+.auto{margin:18px 0 0;padding:10px 14px;border-left:3px solid var(--c,var(--rule));background:color-mix(in srgb,var(--c,var(--rule)) 10%,transparent);font-size:.94rem}
+@keyframes spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.steps .run .ic{animation:none}}
+.htools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:18px 0}.htools input{max-width:300px}
+.hlist{display:flex;flex-direction:column;gap:10px}
+.hcard{display:grid;grid-template-columns:auto 84px 1fr auto auto auto;gap:14px;align-items:center;padding:10px 14px;background:var(--sheet);border:1px solid var(--rule);border-radius:4px}
+.hcard.pick{border-color:var(--bp2);box-shadow:inset 3px 0 0 var(--bp2)}
+.hcard img{width:84px;height:62px;object-fit:cover;border-radius:2px;background:var(--rule)}
+.hcard input{width:18px;height:18px}.hmeta{min-width:0}.hmeta strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{font-weight:600;font-size:.88rem;color:var(--c);white-space:nowrap}.pill::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);margin-right:6px}
+.htot{font:700 1.2rem "Bricolage Grotesque",sans-serif;min-width:4ch;text-align:right}.hact{display:flex;gap:6px}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ccard img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px;border-top:5px solid var(--c)}
+.ccard .cls{font-size:2rem}
+table.ct{width:100%;border-collapse:collapse;font-size:.95rem}
+.ct th,.ct td{padding:10px 8px;border-bottom:1px solid var(--rule);text-align:right}.ct th:first-child,.ct td:first-child{text-align:left}
+.ct th{font-weight:600;color:var(--mut);font-size:.85rem}.up{color:var(--CriticalT)}.down{color:var(--LowT)}
 footer{max-width:1000px;margin:0 auto;padding:10px 20px 44px;color:var(--mut);font-size:.85rem}
+@media(max-width:700px){.rad,.cgrid{grid-template-columns:1fr}.photos{grid-template-columns:1fr}
+ .hcard{grid-template-columns:auto 64px 1fr auto}.hcard img{width:64px;height:48px}.hact{grid-column:1/-1;justify-content:flex-end}.htot{display:none}}
 @media(max-width:600px){.sheet>section{padding:22px 18px}.row{grid-template-columns:1fr 40px}.row .mt{grid-column:1/-1;order:3}.cmp{grid-column:1/-1;order:4}}
 .lang{display:flex;margin-left:auto;align-self:flex-start}
 .lang button{padding:6px 16px;border-radius:0;background:transparent;color:var(--ink);border:1px solid var(--rule);font-weight:500;font-size:.92rem}
 .lang button:first-child{border-radius:6px 0 0 6px}.lang button:last-child{border-radius:0 6px 6px 0;border-left:0}
 .lang button.on{background:var(--bp);color:#fff;border-color:var(--bp)}
-@media(prefers-color-scheme:dark){.lang button.on{background:var(--bp2);border-color:var(--bp2);color:#0b1220}}
+@media(prefers-color-scheme:dark){.lang button.on,.seg button.on{background:var(--bp2);border-color:var(--bp2);color:#0b1220}.pills button.on{background:var(--ink);color:#0b1220}}
 .bn,.bn *{font-family:"Noto Sans Bengali","Hind Siliguri","Bangla Sangam MN",sans-serif!important;letter-spacing:0!important}
 .bn{line-height:1.75}.bn ol{list-style-type:bengali}.bn .cls{line-height:1.3}
-@media print{header,#up,.noprint,footer{display:none}body{background:#fff}.sheet{border:0;margin:0}}
+[hidden]{display:none!important}
+@media print{header,#up,.noprint,footer,nav{display:none!important}body{background:#fff}.sheet{border:0;margin:0}.row{break-inside:avoid}.photos figure{break-inside:avoid}}
 </style></head><body>
-<header><div class="wrap"><h1>BhobonAkkhi</h1><p>Seismic screening for Dhaka buildings. Add four drone photos of one building to get a risk rating and a written report.</p></div></header>
+<header><div class="wrap"><h1>BhobonAkkhi</h1><p>Seismic screening for Dhaka buildings. Add four drone photos of one building to get a risk rating and a written report.</p>
+<nav><button type="button" id="tab-new" class="on">New analysis</button><button type="button" id="tab-hist">History</button></nav></div></header>
 <main>
+<div id="view-new">
 <section id="up"><h2>Add the four photos</h2><p class="mut">Click a frame or drop a photo on it. All four views are needed.</p>
+<label class="field">Building name or address (optional)<input type="text" id="bname" maxlength="120" placeholder="e.g. House 12, Road 5, Mirpur 10"></label>
 <div class="grid" id="grid"></div>
 <div class="actions"><button id="go" disabled>Analyze building</button><button id="reset" class="ghost" type="button">Clear photos</button><span id="msg" class="mut" role="status"></span></div></section>
 <div id="out" aria-live="polite"></div>
+</div>
+<div id="view-hist" hidden>
+<h2>Past analyses</h2><p class="mut">Every analysis is saved here. Tick two buildings to compare them side by side.</p>
+<div class="htools"><input type="search" id="hq" placeholder="Search by name" aria-label="Search past analyses"><button id="cmpbtn" disabled>Compare selected (0/2)</button></div>
+<div id="hlist" class="hlist"></div>
+<div id="cmpout"></div>
+</div>
 </main>
 <footer>Screening aid only, not a structural engineering assessment. A qualified engineer should inspect a building before any decision is made.</footer>
 <script>
 const VIEWS=[['facade','Façade','Front view, ground level'],['oblique45','Oblique 45°','Looking down at 45°'],['oblique60','Oblique 60°','Steeper, 60° down'],['nadir','Nadir','Straight down from above']];
+const IND=['Soft_Story','Cracks','Plan_Irregularity','Material_Degradation','Pounding','Overhang'];
+const RUB={Soft_Story:['Solid infill walls at ground floor, same as upper floors','Ground floor mostly enclosed, one open bay (e.g. a garage door)','Open shopfront/parking with columns showing, partial infill elsewhere','Ground floor fully open: stilts/columns only, no infill at all'],
+ Cracks:['No cracks visible at this resolution','A few isolated hairline cracks','Cracks at multiple locations, moderate width, e.g. at wall-column junctions','Wide/diagonal structural cracks, cracking through slabs or load-bearing walls'],
+ Plan_Irregularity:['Regular rectangular/symmetric footprint','Slight asymmetry, small setback','Clear L/U-shape, re-entrant corner, uneven extension','Complex multi-wing plan, severe discontinuity between floors'],
+ Material_Degradation:['Finish looks intact, no staining','Surface weathering, minor discoloration','Patches of plaster loss/exposed brick, some rust on railings','Major spalling, exposed corroded rebar, rotten structural timber'],
+ Pounding:['Clear separation (>1 m), no tall neighbour','Adequate gap but a taller/stiffer neighbour nearby','Narrow gap, floor levels between buildings do not align','Zero gap/shared party wall with a structurally different neighbour'],
+ Overhang:['No cantilevers','Small balcony, clearly supported','Cantilevered slab with no visible bracket/support','Large heavy cantilever (extra room) unsupported, especially on upper floors']};
+const ICOL={Soft_Story:'#d81b60',Cracks:'#e53935',Plan_Irregularity:'#8e24aa',Material_Degradation:'#f57c00',Pounding:'#1e88e5',Overhang:'#00897b'};
 const RAY={facade:[4,20,25,20],oblique45:[8,2,25,19],oblique60:[16,3,25,19],nadir:[34,3,34,13]};
 const glyph=k=>{const[a,b,c,d]=RAY[k];return `<svg class="gl" viewBox="0 0 48 36" width="46" height="35" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="26" y="14" width="16" height="18" rx="1"/><path d="M2 33h44"/><line x1="${a}" y1="${b}" x2="${c}" y2="${d}"/><circle cx="${a}" cy="${b}" r="2.6" fill="currentColor" stroke="none"/></svg>`};
-const files={},grid=document.getElementById('grid'),go=document.getElementById('go'),msg=document.getElementById('msg'),out=document.getElementById('out');
-const E=x=>String(x??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const $=id=>document.getElementById(id);
+const files={},grid=$('grid'),go=$('go'),msg=$('msg'),out=$('out');
+const E=x=>String(x??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const cap=s=>s.charAt(0).toUpperCase()+s.slice(1).toLowerCase();
+const fmtDate=t=>new Date((t||0)*1000).toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+let CFG={email:false,score_mode:'average',vlm:'template',auto_email_to:[],bn_pdf:false};
+fetch('/config').then(r=>r.json()).then(c=>CFG=c).catch(()=>{});
+
+/* ---------- upload ---------- */
 function empty(l,i){const[k,label,hint]=VIEWS[i];l.className='slot';l.innerHTML=`${glyph(k)}<strong>${label}</strong><span>${hint}</span><input type="file" accept="image/*" aria-label="${label} photo">`;bind(l,i)}
 function setFile(l,i,f){if(!f||!f.type.startsWith('image/'))return;files[VIEWS[i][0]]=f;l.className='slot done';
   l.innerHTML=`<img src="${URL.createObjectURL(f)}" alt="${VIEWS[i][1]} photo"><div class="cap">${VIEWS[i][1]} – ${E(f.name)}</div><input type="file" accept="image/*" aria-label="Replace ${VIEWS[i][1]} photo">`;bind(l,i);go.disabled=Object.keys(files).length<4}
@@ -89,52 +181,242 @@ function bind(l,i){l.querySelector('input').onchange=e=>setFile(l,i,e.target.fil
   l.ondragover=e=>{e.preventDefault();l.classList.add('over')};l.ondragleave=()=>l.classList.remove('over');
   l.ondrop=e=>{e.preventDefault();l.classList.remove('over');setFile(l,i,e.dataTransfer.files[0])}}
 const slots=VIEWS.map((_,i)=>{const l=document.createElement('label');empty(l,i);grid.appendChild(l);return l});
-const reset=()=>{for(const k in files)delete files[k];slots.forEach((l,i)=>empty(l,i));go.disabled=true;out.innerHTML='';msg.textContent=''};
-document.getElementById('reset').onclick=reset;
+function reset(){for(const k in files)delete files[k];slots.forEach((l,i)=>empty(l,i));go.disabled=true;out.innerHTML='';msg.textContent='';$('bname').value='';CUR=null}
+$('reset').onclick=reset;
+
+/* ---------- helpers ---------- */
 function md(t){const inl=x=>E(x).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*(?!\s)([^*]+?)\*/g,'$1<em>$2</em>');
   let h='',list=null;const close=()=>{if(list){h+='</'+list+'>';list=null}};
-  for(const raw of t.split('\n')){const l=raw.trim();let m;if(!l){close();continue}
+  for(const raw of String(t||'').split('\n')){const l=raw.trim();let m;if(!l){close();continue}
     if(/^-{3,}$/.test(l)){close();h+='<hr>';continue}
     if(m=l.match(/^#{1,6}\s+(.*)/)){close();h+='<h3>'+inl(m[1])+'</h3>';continue}
     if(m=l.match(/^[*-]\s+(.*)/)){if(list!=='ul'){close();h+='<ul>';list='ul'}h+='<li>'+inl(m[1])+'</li>';continue}
     if(m=l.match(/^\d+\.\s+(.*)/)){if(list!=='ol'){close();h+='<ol>';list='ol'}h+='<li>'+inl(m[1])+'</li>';continue}
     close();h+='<p>'+inl(l)+'</p>'}close();return h}
 const sev=v=>v<1?'var(--Low)':v<2?'var(--Moderate)':v<2.5?'var(--High)':'var(--Critical)';
-let lang='en',LAST=null;const BD=s=>String(s).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+async function stream(url,opts,onMsg){
+  const res=await fetch(url,opts);
+  if(!res.ok){let d;try{d=(await res.json()).detail}catch(e){}throw new Error(d||('HTTP '+res.status))}
+  const rd=res.body.getReader(),dec=new TextDecoder();let buf='';
+  for(;;){const{value,done}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});let i;
+    while((i=buf.indexOf('\n'))>=0){const line=buf.slice(0,i).trim();buf=buf.slice(i+1);if(line)onMsg(JSON.parse(line))}}
+  if(buf.trim())onMsg(JSON.parse(buf))}
+function radarSVG(series,label,aria){
+  const cx=220,cy=165,R=112,n=IND.length,ang=k=>-Math.PI/2+2*Math.PI*k/n,pt=(k,v)=>[cx+R*v/3*Math.cos(ang(k)),cy+R*v/3*Math.sin(ang(k))];
+  const P=v=>IND.map((_,k)=>pt(k,v).map(x=>x.toFixed(1)).join(',')).join(' ');let g='';
+  for(const l of[1,2,3])g+=`<polygon points="${P(l)}" fill="none" stroke="var(--rule)"/><text x="${cx+4}" y="${cy-R*l/3+12}" font-size="10" fill="var(--mut)">${l}</text>`;
+  IND.forEach((k,i)=>{const[x,y]=pt(i,3);g+=`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--rule)"/>`;
+    const[lx,ly]=pt(i,3.4),c=Math.cos(ang(i)),a=Math.abs(c)<.2?'middle':c>0?'start':'end';
+    g+=`<text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${a}" font-size="12.5" fill="var(--ink)">${E(label(k))}</text>`});
+  for(const s of series){const pts=IND.map((k,i)=>pt(i,Math.max(0,Math.min(3,s.vals[k]??0))));
+    g+=`<polygon points="${pts.map(p=>p.map(x=>x.toFixed(1)).join(',')).join(' ')}" fill="${s.fill?s.color:'none'}" fill-opacity=".14" stroke="${s.color}" stroke-width="${s.w||2}" ${s.dash?'stroke-dasharray="6 4"':''} stroke-linejoin="round"/>`;
+    if(!s.dash)g+=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="${s.color}"/>`).join('')}
+  return `<svg viewBox="0 0 440 330" width="100%" role="img" aria-label="${E(aria)}">${g}</svg>`}
+
+/* ---------- text ---------- */
+let lang='en',CUR=null,SEL='all',OVL='box',HMBUSY=null;const BD=s=>String(s).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
 const T={en:{cls:{Low:'Low risk',Moderate:'Moderate risk',High:'High risk',Critical:'Critical risk'},of:'out of 18',zones:['Low 0–5','Moderate 5–10','High 10–14','Critical 14–18'],
-  ind:'Indicators',sub:'Each score runs from 0 (no concern) to 3 (severe). Marks on the bars show 1 and 2.',rep:'Written report',vis:'Visual check',
+  mode:{average:'Final score = average of the model and the AI visual check.',model:'Final score = BhobonAkkhi model.'},
+  rad:'Model vs AI visual check',radSub:'Each axis is one indicator: 0 at the centre, 3 at the edge.',lgM:'Model',lgA:'AI visual check',lgF:'Final (average)',
+  noAI:'The AI visual check was not available for this analysis, so only the model is shown.',
+  lvl:n=>`<b>Level ${n}:</b>`,ind:'Indicators',sub:'Each score runs from 0 (no concern) to 3 (severe). Click an indicator to see it on the photos.',m:'Model',a:'AI',f:'Final',
   chip:{exact:'Same score',close:'Within 1 point',disagree:'Differs by more than 1 point','no evidence':'Not visible in the photos'},
-  src:{gemini:'Written by Gemini from the four photos.',qwen:'Written by Qwen from the four photos.',template:'Fixed template text. No AI model wrote this report.'},
-  print:'Print or save as PDF',again:'Analyze another building',nm:k=>cap(k.replace(/_/g,' '))},
+  ph:'Where it shows on the photos',phSub:'AI evidence shows where the AI visual check saw each problem. The heatmap shows which parts of each photo pushed the model’s score up or down.',
+  all:'All',box:'AI evidence',heat:'Heatmap',noBox:k=>`The AI did not mark a spot for ${k}.`,noBoxAny:'The AI did not mark any spots for this building.',
+  hGen:'Generate heatmap',hNote:'Takes about 1–2 minutes. It greys out one patch of a photo at a time and measures how the model’s score changes.',
+  hRun:(n,t)=>`Working… ${n} of ${t}`,hUp:'Raises the score',hDown:'Lowers the score',hAll:'Showing the effect on the total score.',hErr:'Heatmap failed: ',
+  vn:{facade:'Façade',oblique45:'Oblique 45°',oblique60:'Oblique 60°',nadir:'Nadir'},
+  rep:'Written report',src:{gemini:'Written by Gemini from the four photos.',qwen:'Written by Qwen from the four photos.',template:'Fixed template text. No AI model wrote this report.'},
+  pdf:'Download PDF',pdfo:'Open PDF',mail:'Email report',print:'Print',again:'Analyze another building',
+  mTo:'Send to (up to 5 addresses, separated by commas)',mNote:'Message (optional)',mSend:'Send email',mWait:'Sending…',mOk:t=>`Sent to ${t}.`,
+  mOff:'Email is not set up on the server yet. Add SMTP_USER and SMTP_PASSWORD to the .env file and restart.',
+  auto:{sent:(t,d)=>`Emailed automatically to ${t} on ${d}, because the building is not Low risk.`,
+    failed:(t,e)=>`Automatic email to ${t} failed: ${e}. You can send it with “Email report” below.`,
+    not_configured:t=>`This report should have been emailed automatically to ${t}, but email is not set up on the server.`,
+    low:'Low risk: this report was not emailed automatically. Use “Email report” if you want to send it.',
+    off:'Automatic email is turned off on the server.'},
+  nm:k=>cap(k.replace(/_/g,' '))},
  bn:{cls:{Low:'নিম্ন ঝুঁকি',Moderate:'মাঝারি ঝুঁকি',High:'উচ্চ ঝুঁকি',Critical:'অতি উচ্চ ঝুঁকি'},of:'১৮-এর মধ্যে',zones:['নিম্ন ০–৫','মাঝারি ৫–১০','উচ্চ ১০–১৪','অতি উচ্চ ১৪–১৮'],
-  ind:'সূচকসমূহ',sub:'প্রতিটি স্কোর ০ (কোনো উদ্বেগ নেই) থেকে ৩ (গুরুতর)। বারের চিহ্ন ১ ও ২ নির্দেশ করে।',rep:'লিখিত প্রতিবেদন',vis:'চাক্ষুষ যাচাই',
+  mode:{average:'চূড়ান্ত স্কোর = মডেল ও এআই চাক্ষুষ যাচাইয়ের গড়।',model:'চূড়ান্ত স্কোর = ভবনআখি মডেল।'},
+  rad:'মডেল বনাম এআই চাক্ষুষ যাচাই',radSub:'প্রতিটি অক্ষ একটি সূচক: কেন্দ্রে ০, প্রান্তে ৩।',lgM:'মডেল',lgA:'এআই চাক্ষুষ যাচাই',lgF:'চূড়ান্ত (গড়)',
+  noAI:'এই বিশ্লেষণে এআই যাচাই পাওয়া যায়নি, তাই শুধু মডেল দেখানো হয়েছে।',
+  ind:'সূচকসমূহ',sub:'প্রতিটি স্কোর ০ (কোনো উদ্বেগ নেই) থেকে ৩ (গুরুতর)। ছবিতে দেখতে একটি সূচকে ক্লিক করুন।',m:'মডেল',a:'এআই',f:'চূড়ান্ত',
   chip:{exact:'একই স্কোর',close:'১ পয়েন্টের মধ্যে',disagree:'১ পয়েন্টের বেশি পার্থক্য','no evidence':'ছবিতে দেখা যায়নি'},
-  src:{gemini:'চারটি ছবি থেকে Gemini এই প্রতিবেদন লিখেছে।',qwen:'চারটি ছবি থেকে Qwen এই প্রতিবেদন লিখেছে।',template:'এটি নির্দিষ্ট টেমপ্লেটের লেখা; কোনো এআই মডেল লেখেনি।'},
-  print:'প্রিন্ট করুন বা পিডিএফ হিসেবে সংরক্ষণ করুন',again:'আরেকটি ভবন বিশ্লেষণ করুন',
+  ph:'ছবিতে কোথায় দেখা যায়',phSub:'এআই প্রমাণ দেখায় এআই কোথায় সমস্যাটি দেখেছে। হিটম্যাপ দেখায় ছবির কোন অংশ মডেলের স্কোর বাড়িয়েছে বা কমিয়েছে।',
+  all:'সব',box:'এআই প্রমাণ',heat:'হিটম্যাপ',noBox:k=>`${k}-এর জন্য এআই কোনো জায়গা চিহ্নিত করেনি।`,noBoxAny:'এই ভবনে এআই কোনো জায়গা চিহ্নিত করেনি।',
+  hGen:'হিটম্যাপ তৈরি করুন',hNote:'প্রায় ১–২ মিনিট লাগে। ছবির একেকটি অংশ ঢেকে দিয়ে মডেলের স্কোর কতটা বদলায় তা মাপা হয়।',
+  hRun:(n,t)=>`চলছে… ${BD(n)} / ${BD(t)}`,hUp:'স্কোর বাড়ায়',hDown:'স্কোর কমায়',hAll:'মোট স্কোরের উপর প্রভাব দেখানো হচ্ছে।',hErr:'হিটম্যাপ ব্যর্থ: ',
+  vn:{facade:'সম্মুখভাগ',oblique45:'তির্যক ৪৫°',oblique60:'তির্যক ৬০°',nadir:'উপর থেকে'},
+  rep:'লিখিত প্রতিবেদন',src:{gemini:'চারটি ছবি থেকে Gemini এই প্রতিবেদন লিখেছে।',qwen:'চারটি ছবি থেকে Qwen এই প্রতিবেদন লিখেছে।',template:'এটি নির্দিষ্ট টেমপ্লেটের লেখা; কোনো এআই মডেল লেখেনি।'},
+  pdf:'পিডিএফ ডাউনলোড',pdfo:'পিডিএফ খুলুন',mail:'ইমেইলে পাঠান',print:'প্রিন্ট',again:'আরেকটি ভবন বিশ্লেষণ করুন',
+  mTo:'প্রাপকের ইমেইল (সর্বোচ্চ ৫টি, কমা দিয়ে আলাদা)',mNote:'বার্তা (ঐচ্ছিক)',mSend:'ইমেইল পাঠান',mWait:'পাঠানো হচ্ছে…',mOk:t=>`${t}-এ পাঠানো হয়েছে।`,
+  mOff:'সার্ভারে ইমেইল এখনও চালু হয়নি। .env ফাইলে SMTP_USER ও SMTP_PASSWORD যোগ করে আবার চালু করুন।',
+  auto:{sent:(t,d)=>`ভবনটি নিম্ন ঝুঁকির নয়, তাই ${d} তারিখে প্রতিবেদনটি স্বয়ংক্রিয়ভাবে ${t}-এ পাঠানো হয়েছে।`,
+    failed:(t,e)=>`${t}-এ স্বয়ংক্রিয় ইমেইল পাঠানো যায়নি: ${e}। নিচের “ইমেইলে পাঠান” দিয়ে পাঠাতে পারেন।`,
+    not_configured:t=>`এই প্রতিবেদনটি স্বয়ংক্রিয়ভাবে ${t}-এ যাওয়ার কথা ছিল, কিন্তু সার্ভারে ইমেইল চালু হয়নি।`,
+    low:'নিম্ন ঝুঁকি: এই প্রতিবেদনটি স্বয়ংক্রিয়ভাবে পাঠানো হয়নি। পাঠাতে চাইলে “ইমেইলে পাঠান” ব্যবহার করুন।',
+    off:'সার্ভারে স্বয়ংক্রিয় ইমেইল বন্ধ আছে।'},
   nm:k=>({Soft_Story:'সফট স্টোরি',Cracks:'ফাটল',Plan_Irregularity:'নকশার অনিয়ম',Material_Degradation:'উপকরণের ক্ষয়',Pounding:'পাউন্ডিং',Overhang:'ওভারহ্যাং'})[k]}};
+
+/* ---------- result sheet ---------- */
 function render(r,first){
   const L=T[lang],bnl=lang==='bn',N=x=>bnl?BD(x):x,pct=Math.min(r.total,18)/18*100,cm={};(r.comparison||[]).forEach(c=>cm[c.indicator]=c);
-  const warn=((bnl?r.warnings_bn:r.warnings)||[]).map(w=>`<div class="note">${E(w)}</div>`).join('');
+  const hasAI=(r.comparison||[]).length>0,mi=r.model_indicators||r.indicators;
+  const warn=((bnl&&r.warnings_bn)||r.warnings||[]).map(w=>`<div class="note">${E(w)}</div>`).join('');
   const seg=(f,c,t)=>`<div style="flex:${f}"><i style="background:var(--${c})"></i><small>${t}</small></div>`;
-  const rows=Object.entries(r.indicators).map(([k,v])=>{const c=cm[k];let x='';
-    if(c){const cl={exact:'exact',close:'close',disagree:'disagree'}[c.status]||'none';x=`<div class="cmp"><span class="chip ${cl}">${L.chip[c.status]}</span>${L.vis}: ${N(c.vlm??'–')}. ${E(bnl?c.evidence_bn:c.evidence)}</div>`}
-    return `<div class="row"><div class="nm">${E(L.nm(k))}</div><div class="mt"><i style="width:${v/3*100}%;background:${sev(v)}"></i></div><div class="val">${N(v.toFixed(1))}</div>${x}</div>`}).join('');
+  const rows=IND.map(k=>{const v=r.indicators[k],c=cm[k];let x='';
+    if(c){const cl={exact:'exact',close:'close',disagree:'disagree'}[c.status]||'none';
+      x=`<div class="cmp"><span class="nums">${L.m} ${N(c.model.toFixed(1))} · ${L.a} ${c.vlm==null?'–':N(c.vlm)}</span><span class="chip ${cl}">${L.chip[c.status]}</span>${E((bnl&&c.evidence_bn)||c.evidence)}</div>`}
+    const lv=Math.round(v),rb=bnl?'':`<div class="cmp lvl">${L.lvl(lv)} ${E(RUB[k][lv])}</div>`;
+    return `<div class="row ${SEL===k?'sel':''}" role="button" tabindex="0" data-k="${k}" aria-pressed="${SEL===k}"><div class="nm">${E(L.nm(k))}</div><div class="mt"><i style="width:${v/3*100}%;background:${sev(v)}"></i></div><div class="val">${N(v.toFixed(1))}</div>${rb}${x}</div>`}).join('');
+  const series=[{vals:mi,color:'var(--bp2)',fill:1}];
+  if(hasAI){const av={};r.comparison.forEach(c=>av[c.indicator]=c.vlm);series.push({vals:av,color:'var(--ai)',fill:1});
+    if(r.score_mode==='average')series.push({vals:r.indicators,color:'var(--ink)',dash:1,w:2.5})}
+  const tally={exact:0,close:0,disagree:0,'no evidence':0};(r.comparison||[]).forEach(c=>tally[c.status]++);
   const tg=(l,t)=>`<button type="button" class="${lang===l?'on':''}" data-l="${l}" aria-pressed="${lang===l}">${t}</button>`;
+  const ae=r.auto_email||null,aeTo=E(((ae&&ae.to)||[]).join(', ')),aeCol={sent:'var(--Low)',failed:'var(--Critical)',not_configured:'var(--Moderate)'}[ae&&ae.status]||'var(--rule)';
+  const auto=!ae||!L.auto[ae.status]?'':`<p class="auto noprint" style="--c:${aeCol}">${ae.status==='sent'?L.auto.sent(aeTo,bnl?new Date((ae.at||0)*1000).toLocaleDateString('bn-BD',{day:'numeric',month:'long',year:'numeric'}):fmtDate(ae.at)):ae.status==='failed'?L.auto.failed(aeTo,E(ae.error||'')):ae.status==='not_configured'?L.auto.not_configured(aeTo):L.auto[ae.status]}</p>`;
+  const pq=bnl&&CFG.bn_pdf?'lang=bn':'';
+  const meta=[r.name?`<strong>${E(r.name)}</strong>`:'',r.created?fmtDate(r.created):'',L.mode[r.score_mode||'model']].filter(Boolean).join(' · ');
   out.innerHTML=`<article class="sheet ${bnl?'bn':''}" lang="${lang}">
   <section><div class="vd"><span class="cls" style="color:var(--${r.class}T)">${E(L.cls[r.class])}</span><span class="sc"><b>${N(r.total.toFixed(1))}</b> ${L.of}</span>
-  <div class="lang" role="group" aria-label="Report language">${tg('en','English')}${tg('bn','বাংলা')}</div></div>
+  <div class="lang noprint" role="group" aria-label="Report language">${tg('en','English')}${tg('bn','বাংলা')}</div></div>
+  <p class="mut meta">${meta}</p>
   <div class="ruler" aria-hidden="true">${seg(5,'Low',L.zones[0])}${seg(5,'Moderate',L.zones[1])}${seg(4,'High',L.zones[2])}${seg(4,'Critical',L.zones[3])}<div class="mk"></div></div>${warn}</section>
+  <section><h2>${L.rad}</h2><p class="mut">${L.radSub}</p><div class="rad"><div>${radarSVG(series,L.nm,L.rad)}</div><div>
+   <ul class="lg"><li><i style="background:var(--bp2)"></i>${L.lgM}</li>${hasAI?`<li><i style="background:var(--ai)"></i>${L.lgA}</li>`:''}${hasAI&&r.score_mode==='average'?`<li><i class="dash"></i>${L.lgF}</li>`:''}</ul>
+   ${hasAI?`<div class="tally">${Object.entries(tally).map(([k,n])=>`<b>${N(n)}</b><span class="chip ${({exact:'exact',close:'close',disagree:'disagree'})[k]||'none'}">${L.chip[k]}</span>`).join('')}</div>`:`<p class="mut">${L.noAI}</p>`}
+  </div></div></section>
   <section><h2>${L.ind}</h2><p class="mut">${L.sub}</p>${rows}</section>
-  <section><h2>${L.rep}</h2><p class="mut">${L.src[r.report_source]||''}</p><div class="rep">${md((bnl?r.report_bn:r.report)||r.report)}</div>
-  <div class="actions noprint" style="margin-top:22px"><button onclick="window.print()">${L.print}</button><button class="ghost" onclick="reset();window.scrollTo({top:0})">${L.again}</button></div></section></article>`;
+  <section id="phsec"><h2>${L.ph}</h2><p class="mut">${L.phSub}</p><div id="ph"></div></section>
+  <section><h2>${L.rep}</h2><p class="mut">${L.src[r.report_source]||''}</p><div class="rep">${md((bnl&&r.report_bn)||r.report)}</div>${auto}
+  <div class="actions noprint" style="margin-top:22px">
+   <a class="btn" href="/report/${r.id}.pdf?download=1${pq?'&'+pq:''}">${L.pdf}</a><a class="btn ghost" href="/report/${r.id}.pdf${pq?'?'+pq:''}" target="_blank" rel="noopener">${L.pdfo}</a>
+   <button class="ghost" id="mailbtn" aria-expanded="false">${L.mail}</button><button class="ghost" onclick="window.print()">${L.print}</button>
+   <button class="ghost" id="againbtn">${L.again}</button></div>
+  <div class="mail noprint" id="mailbox" hidden>${CFG.email?`<label class="field">${L.mTo}<input type="text" id="mto" inputmode="email" autocomplete="email" placeholder="engineer@example.com" value="${E((CFG.auto_email_to||[]).join(', '))}"></label>
+   <label class="field">${L.mNote}<textarea id="mnote"></textarea></label><div class="actions"><button id="msend">${L.mSend}</button><span id="mstat" role="status"></span></div>`:`<p class="mut">${L.mOff}</p>`}</div>
+  </section></article>`;
   out.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{lang=b.dataset.l;render(r,false)});
+  out.querySelectorAll('.row').forEach(el=>{const pick=()=>{SEL=SEL===el.dataset.k?'all':el.dataset.k;if(OVL==='box'&&SEL!=='all'&&!(cm[SEL]&&cm[SEL].box)&&r.heatmap)OVL='heat';selRows();drawPhotos();
+      if(SEL!=='all')$('phsec').scrollIntoView({behavior:'smooth',block:'start'})};
+    el.onclick=pick;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}}});
+  $('mailbtn').onclick=()=>{const b=$('mailbox');b.hidden=!b.hidden;$('mailbtn').setAttribute('aria-expanded',!b.hidden);if(!b.hidden&&$('mto'))$('mto').focus()};
+  if($('msend'))$('msend').onclick=()=>sendMail(r);
+  $('againbtn').onclick=()=>{reset();window.scrollTo({top:0})};
+  drawPhotos();
   const mk=out.querySelector('.mk');
   if(first){requestAnimationFrame(()=>requestAnimationFrame(()=>{mk.style.left=pct+'%'}));out.scrollIntoView({behavior:'smooth'})}
   else{mk.style.transition='none';mk.style.left=pct+'%'}}
-go.onclick=async()=>{go.disabled=true;msg.textContent='';slots.forEach(l=>l.classList.add('scan'));
-  out.innerHTML='<article class="sheet"><div class="busy">Analyzing the four photos. This can take up to a minute.</div></article>';
-  const fd=new FormData();VIEWS.forEach(([k])=>fd.append(k,files[k]));
-  try{const res=await fetch('/analyze',{method:'POST',body:fd});if(!res.ok)throw new Error((await res.json()).detail||res.status);LAST=await res.json();render(LAST,true)}
-  catch(e){out.innerHTML=`<article class="sheet"><div class="err">Analysis failed: ${E(e.message)}. Check that the server is still running, then try again.</div></article>`}
-  slots.forEach(l=>l.classList.remove('scan'));go.disabled=false};
+
+function selRows(){out.querySelectorAll('.row').forEach(el=>{const on=el.dataset.k===SEL;el.classList.toggle('sel',on);el.setAttribute('aria-pressed',on)})}
+
+function drawPhotos(){
+  const r=CUR,ph=$('ph');if(!r||!ph)return;const L=T[lang],cmp=r.comparison||[];
+  const pills=`<div class="pills" role="group" aria-label="Indicator">${['all',...IND].map(k=>`<button type="button" data-k="${k}" class="${SEL===k?'on':''}" aria-pressed="${SEL===k}">${k==='all'?'':`<span class="dot" style="background:${ICOL[k]}"></span>`}${E(k==='all'?L.all:L.nm(k))}</button>`).join('')}</div>`;
+  const segs=`<div class="seg" role="group" aria-label="Overlay"><button type="button" data-o="box" class="${OVL==='box'?'on':''}">${L.box}</button><button type="button" data-o="heat" class="${OVL==='heat'?'on':''}">${L.heat}</button></div>`;
+  let info='',over={};VIEWS.forEach(([v])=>over[v]='');
+  if(OVL==='box'){
+    const shown=cmp.filter(c=>c.box&&c.view&&(SEL==='all'||SEL===c.indicator));
+    if(!cmp.some(c=>c.box))info=`<p class="mut">${L.noBoxAny}</p>`;else if(!shown.length)info=`<p class="mut">${L.noBox(L.nm(SEL))}</p>`;
+    const placed={};
+    shown.forEach(c=>{const[y0,x0,y1,x1]=c.box,ps=placed[c.view]=placed[c.view]||[];
+      const clash=ps.some(([py,px])=>Math.abs(py-y0)<70&&Math.abs(px-x0)<300);ps.push([y0,x0]);
+      const pos=clash?(y1>930?'top':'below'):(y0<60?'top':'');
+      over[c.view]+=`<div class="bx ${pos}" style="--c:${ICOL[c.indicator]};left:${x0/10}%;top:${y0/10}%;width:${(x1-x0)/10}%;height:${(y1-y0)/10}%" title="${E(c.evidence)}"><span>${E(L.nm(c.indicator))}</span></div>`})
+  }else if(r.heatmap){
+    const hm=r.heatmap,g=hm.grid,val=(v,i,j)=>SEL==='all'?IND.reduce((s,k)=>s+hm.maps[k][v][i][j],0):hm.maps[SEL][v][i][j];
+    let mx=1e-9;VIEWS.forEach(([v])=>{for(let i=0;i<g;i++)for(let j=0;j<g;j++)mx=Math.max(mx,Math.abs(val(v,i,j)))});
+    VIEWS.forEach(([v])=>{for(let i=0;i<g;i++)for(let j=0;j<g;j++){const x=val(v,i,j),a=Math.min(1,Math.abs(x)/mx)*.62;
+      over[v]+=`<div class="hc" style="left:${j/g*100}%;top:${i/g*100}%;width:${100/g}%;height:${100/g}%;background:${x>0?`rgba(214,40,40,${a.toFixed(2)})`:`rgba(40,90,220,${a.toFixed(2)})`}" title="${x>0?'+':''}${x.toFixed(3)}"></div>`}});
+    info=`<div class="hlg"><span><i style="background:rgba(214,40,40,.6)"></i>${L.hUp}</span><span><i style="background:rgba(40,90,220,.6)"></i>${L.hDown}</span>${SEL==='all'?`<span>${L.hAll}</span>`:''}</div>`
+  }else{
+    info=HMBUSY&&HMBUSY.id===r.id?`<p class="mut">${HMBUSY.err?`<span class="bad">${L.hErr}${E(HMBUSY.err)}</span>`:L.hRun(HMBUSY.n,HMBUSY.t)}</p><div class="bar"><i style="width:${HMBUSY.t?HMBUSY.n/HMBUSY.t*100:0}%"></i></div>`
+      :`<div class="empty"><button type="button" id="hmgo" class="sm">${L.hGen}</button><p class="mut" style="margin-top:10px">${L.hNote}</p></div>`}
+  ph.innerHTML=`<div class="tools noprint">${pills}${segs}</div>${info}<div class="photos">${VIEWS.map(([v])=>`<figure><div class="pw"><img src="/photo/${r.id}/${v}" alt="${E(L.vn[v])} photo">${over[v]}</div><figcaption>${E(L.vn[v])}</figcaption></figure>`).join('')}</div>`;
+  ph.querySelectorAll('.pills button').forEach(b=>b.onclick=()=>{SEL=b.dataset.k;selRows();drawPhotos()});
+  ph.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{OVL=b.dataset.o;drawPhotos()});
+  if($('hmgo'))$('hmgo').onclick=()=>runHeatmap(r)}
+
+async function runHeatmap(r){
+  HMBUSY={id:r.id,n:0,t:0};drawPhotos();
+  try{await stream(`/heatmap/${r.id}`,{method:'POST'},m=>{
+      if(m.error)throw new Error(m.error);
+      if(m.result){r.heatmap=m.result;HMBUSY=null}else{HMBUSY.n=m.n;HMBUSY.t=m.total}
+      if(CUR&&CUR.id===r.id)drawPhotos()})}
+  catch(e){HMBUSY={id:r.id,err:e.message};if(CUR&&CUR.id===r.id)drawPhotos();setTimeout(()=>{if(HMBUSY&&HMBUSY.err){HMBUSY=null;drawPhotos()}},6000)}}
+
+async function sendMail(r){
+  const L=T[lang],st=$('mstat'),b=$('msend');b.disabled=true;st.className='mut';st.textContent=L.mWait;
+  try{const res=await fetch(`/email/${r.id}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:$('mto').value,note:$('mnote').value,lang})});
+    const j=await res.json();if(!res.ok)throw new Error(j.detail||res.status);st.className='ok';st.textContent=L.mOk(j.to.join(', '))}
+  catch(e){st.className='bad';st.textContent=e.message}b.disabled=false}
+
+function show(r){CUR=r;SEL='all';OVL='box';render(r,true)}
+
+/* ---------- analysis with live progress ---------- */
+const STEPS=[['features','Reading the four photos'],['model','Scoring with the BhobonAkkhi model'],['vlm','AI visual check'],['report','Writing the report (English and Bangla) and saving it'],['email','Emailing the report if the building is not Low risk']];
+function progHTML(st,sec){return `<article class="sheet"><div class="busy"><h2>Analyzing the building</h2><ol class="steps">${STEPS.map(([k,l])=>{const s=st[k]||{};
+  return `<li class="${s.state||'wait'}"><span class="ic" aria-hidden="true"></span><span>${l}${s.extra?`<small>${E(s.extra)}</small>`:''}</span></li>`}).join('')}</ol><p class="mut">${sec} s elapsed</p></div></article>`}
+go.onclick=async()=>{
+  go.disabled=true;msg.textContent='';slots.forEach(l=>l.classList.add('scan'));
+  const st={},t0=Date.now(),paint=()=>{out.innerHTML=progHTML(st,Math.round((Date.now()-t0)/1000))};
+  st.vlm={extra:CFG.vlm==='template'?'(not set up, a template will be used)':`(${CFG.vlm})`};paint();out.scrollIntoView({behavior:'smooth'});
+  const tick=setInterval(paint,1000);
+  const fd=new FormData();VIEWS.forEach(([k])=>fd.append(k,files[k]));fd.append('name',$('bname').value);
+  let result=null;
+  try{await stream('/analyze',{method:'POST',body:fd},m=>{
+      if(m.error)throw new Error(m.error);
+      if(m.result){result=m.result;return}
+      const s=st[m.step]=st[m.step]||{};
+      if(m.state==='start'||m.state==='progress'){s.state='run';if(m.step==='features')s.extra=`(${m.n||0} of ${m.total})`;if(m.step==='email'&&m.to)s.extra=`(to ${m.to.join(', ')})`}
+      else if(m.state==='done'){s.state='done';if(m.step==='features')s.extra=''}
+      else if(m.state==='failed'){s.state='fail';s.extra=m.reason==='not_configured'?'(email is not set up on the server)':'(failed, you can send it manually)'}
+      else if(m.state==='skipped'){s.state='skip';s.extra=m.step!=='email'?'(not available, template used)':m.reason==='low'?'(Low risk, not sent automatically)':'(automatic email is off)'}
+      paint()});
+    clearInterval(tick);if(!result)throw new Error('The server stopped before finishing');show(result)}
+  catch(e){clearInterval(tick);out.innerHTML=`<article class="sheet"><div class="err">Analysis failed: ${E(e.message)}. Check that the server is still running, then try again.</div></article>`}
+  slots.forEach(l=>l.classList.remove('scan'));go.disabled=Object.keys(files).length<4};
+
+/* ---------- history and compare ---------- */
+let HIST=[];const PICK=[];
+function tab(which){$('view-new').hidden=which!=='new';$('view-hist').hidden=which!=='hist';
+  $('tab-new').classList.toggle('on',which==='new');$('tab-hist').classList.toggle('on',which==='hist');if(which==='hist')loadHistory()}
+$('tab-new').onclick=()=>tab('new');$('tab-hist').onclick=()=>tab('hist');
+async function loadHistory(){$('hlist').innerHTML='<p class="mut">Loading…</p>';
+  try{HIST=await (await fetch('/history')).json()}catch(e){$('hlist').innerHTML='<p class="bad">Could not load history.</p>';return}
+  for(let i=PICK.length-1;i>=0;i--)if(!HIST.some(h=>h.id===PICK[i]))PICK.splice(i,1);drawHistory()}
+function drawHistory(){
+  const q=$('hq').value.trim().toLowerCase(),items=HIST.filter(h=>!q||(h.name||'').toLowerCase().includes(q));
+  $('cmpbtn').disabled=PICK.length!==2;$('cmpbtn').textContent=`Compare selected (${PICK.length}/2)`;
+  if(!HIST.length){$('hlist').innerHTML='<div class="empty">No analyses yet. Run one from the New analysis tab and it will appear here.</div>';return}
+  if(!items.length){$('hlist').innerHTML='<p class="mut">No building matches that search.</p>';return}
+  $('hlist').innerHTML=items.map(h=>`<div class="hcard ${PICK.includes(h.id)?'pick':''}">
+   <input type="checkbox" data-id="${h.id}" ${PICK.includes(h.id)?'checked':''} aria-label="Select ${E(h.name||'unnamed building')} for comparison">
+   <img src="/photo/${h.id}/facade" alt="" loading="lazy"><div class="hmeta"><strong>${E(h.name||'Unnamed building')}</strong><span class="mut">${fmtDate(h.created)}</span></div>
+   <span class="pill" style="--c:var(--${h.class}T)">${h.class}</span><span class="htot">${h.total.toFixed(1)}</span>
+   <div class="hact"><button class="ghost sm" data-open="${h.id}">Open</button><a class="btn ghost sm" href="/report/${h.id}.pdf" target="_blank" rel="noopener">PDF</a><button class="ghost sm danger" data-del="${h.id}" aria-label="Delete ${E(h.name||'unnamed building')}">Delete</button></div></div>`).join('');
+  $('hlist').querySelectorAll('input[type=checkbox]').forEach(c=>c.onchange=()=>{const id=c.dataset.id,i=PICK.indexOf(id);
+    if(c.checked&&i<0){PICK.push(id);if(PICK.length>2)PICK.shift()}else if(!c.checked&&i>=0)PICK.splice(i,1);drawHistory()});
+  $('hlist').querySelectorAll('[data-open]').forEach(b=>b.onclick=async()=>{const r=await (await fetch('/history/'+b.dataset.open)).json();tab('new');show(r)});
+  $('hlist').querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this analysis and its photos? This cannot be undone.'))return;
+    await fetch('/history/'+b.dataset.del,{method:'DELETE'});if(CUR&&CUR.id===b.dataset.del){CUR=null;out.innerHTML=''}$('cmpout').innerHTML='';loadHistory()})}
+$('hq').oninput=drawHistory;
+$('cmpbtn').onclick=async()=>{
+  const [a,b]=await Promise.all(PICK.map(id=>fetch('/history/'+id).then(r=>r.json())));
+  const nm=k=>T.en.nm(k),A=a.name||'Building A',B=b.name||'Building B';
+  const rows=IND.map(k=>{const d=b.indicators[k]-a.indicators[k];return `<tr><td>${nm(k)}</td><td>${a.indicators[k].toFixed(1)}</td><td>${b.indicators[k].toFixed(1)}</td><td class="${d>0.05?'up':d<-0.05?'down':''}">${d>0?'+':''}${d.toFixed(1)}</td></tr>`}).join('');
+  const dt=b.total-a.total,big=IND.map(k=>[k,b.indicators[k]-a.indicators[k]]).sort((x,y)=>Math.abs(y[1])-Math.abs(x[1]))[0];
+  const sum=Math.abs(dt)<0.05?`Both buildings have the same total score.`:`<strong>${E(dt>0?B:A)}</strong> scores ${Math.abs(dt).toFixed(1)} points higher overall. The biggest difference is in ${nm(big[0]).toLowerCase()} (${Math.abs(big[1]).toFixed(1)} points).`;
+  const card=(r,n,c)=>`<div class="ccard"><img src="/photo/${r.id}/facade" alt="Façade of ${E(n)}" style="--c:${c}"><h2 style="margin-top:12px">${E(n)}</h2><p class="mut">${fmtDate(r.created)}</p>
+    <p><span class="cls" style="color:var(--${r.class}T)">${r.class}</span> <span class="sc"><b>${r.total.toFixed(1)}</b> out of 18</span></p>
+    <div class="actions"><button class="ghost sm" data-open="${r.id}">Open full report</button><a class="btn ghost sm" href="/report/${r.id}.pdf" target="_blank" rel="noopener">PDF</a></div></div>`;
+  $('cmpout').innerHTML=`<article class="sheet"><section><h2>Comparison</h2><p class="mut">${sum}</p></section>
+   <section><div class="cgrid">${card(a,A,'var(--bp2)')}${card(b,B,'var(--ai)')}</div></section>
+   <section><div class="rad"><div>${radarSVG([{vals:a.indicators,color:'var(--bp2)',fill:1},{vals:b.indicators,color:'var(--ai)',fill:1}],nm,'Comparison radar')}</div>
+   <div><ul class="lg"><li><i style="background:var(--bp2)"></i>${E(A)}</li><li><i style="background:var(--ai)"></i>${E(B)}</li></ul>
+   <table class="ct"><thead><tr><th>Indicator</th><th>${E(A)}</th><th>${E(B)}</th><th>Difference</th></tr></thead><tbody>${rows}
+   <tr><td><strong>Total</strong></td><td><strong>${a.total.toFixed(1)}</strong></td><td><strong>${b.total.toFixed(1)}</strong></td><td class="${dt>0.05?'up':dt<-0.05?'down':''}"><strong>${dt>0?'+':''}${dt.toFixed(1)}</strong></td></tr></tbody></table></div></div></section></article>`;
+  $('cmpout').querySelectorAll('[data-open]').forEach(btn=>btn.onclick=async()=>{const r=await (await fetch('/history/'+btn.dataset.open)).json();tab('new');show(r)});
+  $('cmpout').scrollIntoView({behavior:'smooth'})};
 </script></body></html>
